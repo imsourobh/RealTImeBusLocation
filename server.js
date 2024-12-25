@@ -9,7 +9,7 @@ const PORT = 8080;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json()); // Parse JSON data
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files (for HTML)
+app.use(express.static(path.join(__dirname))); // Serve static files (for HTML)
 
 // In-memory storage for bus data
 let busData = {};
