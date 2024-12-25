@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Bus Data</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <h1>Real-Time Bus Data</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Bus Number</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody id="bus-data"></tbody>
+  </table>
+
+  <script>
+    async function fetchBusData() {
+      try {
+        const response = await fetch('/data');
+        const data = await response.json();
+
+        const tableBody = document.getElementById('bus-data');
+        tableBody.innerHTML = ''; // Clear previous data
+
+        Object.keys(data).forEach(busNumber => {
+          const { latitude, longitude, timestamp } = data[busNumber];
+          const row = `<tr>
+            <td>${busNumber}</td>
+            <td>${latitude}</td>
+            <td>${longitude}</td>
+            <td>${timestamp}</td>
+          </tr>`;
+          tableBody.innerHTML += row;
+        });
+      } catch (error) {
+        console.error('Error fetching bus data:', error);
+      }
+    }
+
+    // Fetch data every 2 seconds
+    setInterval(fetchBusData, 2000);
+  </script>
+</body>
+</html>
+
