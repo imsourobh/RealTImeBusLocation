@@ -22,13 +22,13 @@ function updateBusLocations() {
                 if (busMarkers[busNumber]) {
                     // Move existing marker
                     busMarkers[busNumber].setLatLng([lat, lon])
-                        .bindPopup(`Bus ${busNumber}<br>Lat: ${lat}<br>Lon: ${lon}`)
+                        .bindPopup(`Bus ${busNumber}`)
                         .openPopup();
                 } else {
                     // Add new marker
                     busMarkers[busNumber] = L.marker([lat, lon])
                         .addTo(map)
-                        .bindPopup(`Bus ${busNumber}<br>Lat: ${lat}<br>Lon: ${lon}`)
+                        .bindPopup(`Bus ${busNumber}`)
                         .openPopup();
                 }
             });
