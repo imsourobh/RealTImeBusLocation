@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<!-- Leaflet JavaScript -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script defer src="map.js"></script> <!-- Load map logic -->
+        
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
     table { width: 100%; border-collapse: collapse; }
     th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
     th { background-color: #f4f4f4; }
+       #map { height: 500px; width: 100%; } /* Ensure the map is visible */
   </style>
 </head>
 <body>
@@ -29,50 +31,9 @@
     </thead>
     <tbody id="bus-data"></tbody>
   </table>
-
-  <div id="map" style="width: 100%; height: 500px;"></div>
-
-// Initialize the map and set view to a default location
-var map = L.map('map').setView([23.8103, 90.4125], 13); // Example: Dhaka
-
-// Add OpenStreetMap tile layer (Free)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-
-// Object to store bus markers
-var busMarkers = {};
-
-// Function to update bus locations
-function updateBusLocation() {
-    fetch('/getBusLocations') // Assuming your server provides data at this endpoint
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(bus => {
-            var id = bus.id;
-            var lat = parseFloat(bus.latitude);
-            var lon = parseFloat(bus.longitude);
-
-            // If bus marker already exists, update its position
-            if (busMarkers[id]) {
-                busMarkers[id].setLatLng([lat, lon]);
-            } else {
-                // Add a new marker for the bus
-                busMarkers[id] = L.marker([lat, lon])
-                    .bindPopup(`Bus ${id}`)
-                    .addTo(map);
-            }
-        });
-    })
-    .catch(error => console.error('Error fetching bus locations:', error));
-}
-
-// Update bus location every 5 seconds
-setInterval(updateBusLocation, 5000);
-
-// Load initial bus locations
-updateBusLocation();
-
+  
+    <h2>Bus Tracking Map</h2>
+    <div id="map"></div>
   
   <script>
     async function fetchBusData() {
