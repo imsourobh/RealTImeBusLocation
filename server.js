@@ -17,8 +17,8 @@ const valid_imei = ["1729", "2357"]
 
 // Route to handle data from Arduino
 app.post('/update', (req, res) => {
-  const { busNumber, latitude, longitude, timestamp } = req.body;
-
+  const { imei, busNumber, latitude, longitude, timestamp } = req.body;
+if (imei.includes(valid_imei)){
   if (!busNumber || !latitude || !longitude || !timestamp) {
     return res.status(400).json({ error: 'Invalid data format' });
   }
@@ -27,6 +27,10 @@ app.post('/update', (req, res) => {
   busData[busNumber] = { latitude, longitude, timestamp };
 
   res.status(200).json({ message: 'Data updated successfully!' });
+}
+else{
+  res.status(403).json({ error: 'Access Denied'});
+}
 });
 
 // API to send bus data to the webpage
