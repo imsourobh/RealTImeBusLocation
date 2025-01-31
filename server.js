@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname))); // Serve static files (for HTML)
 
 // In-memory storage for bus data
 let busData = {};
+const valid_imei = { "1729", "2357"}
 
 // Route to handle data from Arduino
 app.post('/update', (req, res) => {
