@@ -18,7 +18,7 @@ const valid_imei = ["1729", "2357"]
 // Route to handle data from Arduino
 app.post('/update', (req, res) => {
   const { imei, busNumber, latitude, longitude, timestamp } = req.body;
-if (imei.includes(valid_imei)){
+if (valid_imei.includes(imei)){
   if (!busNumber || !latitude || !longitude || !timestamp) {
     return res.status(400).json({ error: 'Invalid data format' });
   }
