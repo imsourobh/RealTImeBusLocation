@@ -13,21 +13,25 @@ app.use(express.static(path.join(__dirname))); // Serve static files (for HTML)
 
 // In-memory storage for bus data
 let busData = {};
+const validBus= {"1729", "2357"} // list of valid imei number. the other can't access the server
 
 // Route to handle data from Arduino
 app.post('/update', (req, res) => {
-  const { busNumber, latitude, longitude, timestamp } = req.body;
-
-  if (!busNumber || !latitude || !longitude || !timestamp) {
-    return res.status(400).json({ error: 'Invalid data format' });
+  const { imei, busNumber, latitude, longitude, timestamp } = req.body;
+  if (validBus.includes(imei)){
+      if (!busNumber || !latitude || !longitude || !timestamp) {
+        return res.status(400).json({ error: 'Invalid data format' });
+      }
+    
+      // Store the data for the respective bus
+      busData[busNumber] = { latitude, longitude, timestamp };
+    
+      res.status(200).json({ message: 'Data updated successfully!' });
   }
-
-  // Store the data for the respective bus
-  busData[busNumber] = { latitude, longitude, timestamp };
-
-  res.status(200).json({ message: 'Data updated successfully!' });
+  else{
+    return res.status(403).json({error: 'Access denied'});
+    };
 });
-
 // API to send bus data to the webpage
 app.get('/data', (req, res) => {
   res.json(busData);
