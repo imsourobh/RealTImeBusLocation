@@ -12,14 +12,13 @@
   </style>
 </head>
 <body>
-  <h1>Real-Time Bus Data</h1>
+  <h1>Live_Data</h1>
   <table>
     <thead>
       <tr>
         <th>Bus Number</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Timestamp</th>
+        <th>Location</th>
+        <th>Time</th>
       </tr>
     </thead>
     <tbody id="bus-data"></tbody>
@@ -38,8 +37,7 @@
           const { latitude, longitude, timestamp } = data[busNumber];
           const row = `<tr>
             <td>${busNumber}</td>
-            <td>${latitude}</td>
-            <td>${longitude}</td>
+            <td>${latitude}, ${longitude}</td>
             <td>${timestamp}</td>
           </tr>`;
           tableBody.innerHTML += row;
