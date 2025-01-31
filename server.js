@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname))); // Serve static files (for HTML)
 
 // In-memory storage for bus data
 let busData = {};
-const valid_imei = {"1729", "2357"}; //list of valid imei number
+const valid_imei = {1729, 2357}; //list of valid imei number
 // Route to handle data from Arduino
 app.post('/update', (req, res) => {
   const { imei, busNumber, latitude, longitude, timestamp } = req.body;
